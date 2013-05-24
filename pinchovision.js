@@ -1,13 +1,33 @@
+Pinchos = new Meteor.Collection("pinchos");
+
 if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to pinchovision.";
+  /**
+   * Las columnas de la tabla de ranking
+   */
+  Template.pinchosRankingView.columns = ["Imagen", "Chef"];
+
+  /**
+   * El ranking (mostramos foto del pincho y nombre del chef),
+   * está ordenado por puntos totales.
+   */
+  Template.pinchosRankingView.pinchosCollection = function() {
+    return Pinchos.find({}, {sort: {points: -1}, fields: {photo: 1, chef: 1}});
   };
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
+
+  Template.pinchosView.pinchosCollection = function() {
+    return Pinchos.find();
+  };
+
+  Template.pinchoDetailedView.events({
+    "click .btn-primary": function() {
+      var sabor, originalidad, presentacion;
+
+      sabor = +$( "#sabor").val();
+      originalidad = +$( "#originalidad").val();
+      presentacion = +$( "#presentacion").val();
+      
+      Pinchos.update({_id: this._id}, {$inc: {points: sabor + originalidad + presentacion}});
     }
   });
 }

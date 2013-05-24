@@ -3,11 +3,107 @@
 </head>
 
 <body>
-  {{> hello}}
+  <div class="container-fluid">
+  	  {{> home}}
+  	  {{> login}}
+	  {{> pinchosRankingView}}
+	  {{> pinchosView}}
+  </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="home">
+	<div class="row-fluid">
+		<h1>PinchoVision</h1>
+	</div>
+
+	<nav class="row-fluid">
+		<a href="#login" class="btn" data-toggle="modal">Entrar</a>		
+	</nav>
+</template>
+
+<template name="login">
+	<div class="modal hide fade" id="login">
+		<div class="modal-header">
+			<button class="close" data-dismiss="modal">&times;</button>
+			<h3>Entrar en PinchoVision!</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-inline">
+				<label for="chef">Chef</label>
+				<input type="text" placeholder="Pon aquí tu nombre" required >
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary btn-block">Entrar</button>
+		</div>
+	</div>
+
+</template>
+
+<template name="pinchosRankingView">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			{{#each columns}}
+				<th>{{this}}</th>
+			{{/each}}
+			</tr>
+		</thead>
+		<tbody>
+			{{#each pinchosCollection}}
+				{{> pinchoView}}
+			{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="pinchoView">
+	<tr>
+		<td><img src="{{photo}}" alt="Pincho de {{chef}}" class="img-rounded"></td>
+		<td>{{chef}}</td>
+	</tr>
+</template>
+
+<template name="pinchosView">
+	<div class="carousel slide container" id="pinchos-carousel">
+		<div class="carousel-inner">
+			{{#each pinchosCollection}}
+				{{> pinchoDetailedView}}
+			{{/each}}
+		</div>
+
+		<a href="#pinchos-carousel" class="carousel-control left" data-slide="prev">&lsaquo;</a>
+		<a href="#pinchos-carousel" class="carousel-control right" data-slide="next">&rsaquo;</a>
+	</div>
+</template>
+
+<template name="pinchoDetailedView">
+	{{#if first}}
+	<div class="item active">
+	{{else}}
+	<div class="item">
+	{{/if}}
+		<img src="{{imagen}}" alt="Pincho de {{chef}}" class="img-polaroid">
+		<div>
+			<label for="sabor">Sabor</label>
+			<input type="number" min="0" max="5" name="sabor" id="sabor">
+
+			<label for="presentacion">Presentación</label>
+			<input type="number" min="0" max="5" name="presentacion" id="presentacion">
+
+			<label for="originalidad">Originalidad</label>
+			<input type="number" min="0" max="5" name="originalidad" id="originalidad">
+		</div>
+		<button class="btn btn-primary btn-block">Votar</button>
+	</div>
+</template>
+
+<template name="rating">
+	<div class="rating">
+		<span>&#9734;</span>
+		<span>&#9734;</span>
+		<span>&#9734;</span>
+		<span>&#9734;</span>
+		<span>&#9734;</span>
+	</div>
 </template>
