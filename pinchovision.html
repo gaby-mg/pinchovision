@@ -3,23 +3,11 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-  	  {{> home}}
-  	  {{> login}}
-	  {{> pinchosRankingView}}
-	  {{> pinchosView}}
+  <div class="container">
+	  {{> ranking}}
+	  {{> carousel}}
   </div>
 </body>
-
-<template name="home">
-	<div class="row-fluid">
-		<h1>PinchoVision</h1>
-	</div>
-
-	<nav class="row-fluid">
-		<a href="#login" class="btn" data-toggle="modal">Entrar</a>		
-	</nav>
-</template>
 
 <template name="login">
 	<div class="modal hide fade" id="login">
@@ -37,38 +25,28 @@
 			<button class="btn btn-primary btn-block">Entrar</button>
 		</div>
 	</div>
-
 </template>
 
-<template name="pinchosRankingView">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-			{{#each columns}}
-				<th>{{this}}</th>
-			{{/each}}
-			</tr>
-		</thead>
-		<tbody>
-			{{#each pinchosCollection}}
-				{{> pinchoView}}
-			{{/each}}
-		</tbody>
-	</table>
+<template name="ranking">
+	<div class="ranking">
+		{{#each pinchos}}
+			{{> pincho}}
+		{{/each}}
+	</div>
 </template>
 
-<template name="pinchoView">
-	<tr>
-		<td><img src="{{photo}}" alt="Pincho de {{chef}}" class="img-rounded"></td>
-		<td>{{chef}}</td>
-	</tr>
+<template name="pincho">
+	<div class="pincho">
+		<span class="chef">{{chef}}</span>
+		<span class="score">{{score}}</span>
+	</div>
 </template>
 
-<template name="pinchosView">
+<template name="carousel">
 	<div class="carousel slide container" id="pinchos-carousel">
 		<div class="carousel-inner">
-			{{#each pinchosCollection}}
-				{{> pinchoDetailedView}}
+			{{#each pinchos}}
+				{{> pinchoDetalle}}
 			{{/each}}
 		</div>
 
@@ -77,12 +55,8 @@
 	</div>
 </template>
 
-<template name="pinchoDetailedView">
-	{{#if first}}
-	<div class="item active">
-	{{else}}
-	<div class="item">
-	{{/if}}
+<template name="pinchoDetalle">
+	<div class="item {{#if first}} active {{/if}}">
 		<img src="{{imagen}}" alt="Pincho de {{chef}}" class="img-polaroid">
 		<div>
 			<label for="sabor">Sabor</label>

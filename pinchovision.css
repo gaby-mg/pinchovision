@@ -1,4 +1,28 @@
 /* CSS declarations go here */
+
+.pincho {
+	cursor: pointer;
+	padding: 5px;
+}
+
+.pincho .chef {
+	display: inline-block;
+	width: 300px;
+	fotn-size: 1.75em;
+}
+
+.pincho .score {
+	display: inline-block;
+	widht: 100px;
+	text-align: right;
+	font-size: 2em;
+	font-weight: bold;
+	color: #777;
+}
+
+/* Star rating system styling
+ * http://css-tricks.com/star-ratings/
+ */
 .rating {
 	unicode-bidi: bidi-overrride;
 	direction: rtl;
@@ -11,7 +35,9 @@
 	color: gold;
 }
 
+/* Imágenes */
+
+/* Imágenes del ranking */
 .img-rounded {
-	width: 300px;
-	height: 200px;
+	max-width: 300px;
 }

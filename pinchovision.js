@@ -1,21 +1,18 @@
 Pinchos = new Meteor.Collection("pinchos");
 
 if (Meteor.isClient) {
+  
   /**
-   * Las columnas de la tabla de ranking
+   * El ranking, por puntos.
    */
-  Template.pinchosRankingView.columns = ["Imagen", "Chef"];
-
-  /**
-   * El ranking (mostramos foto del pincho y nombre del chef),
-   * está ordenado por puntos totales.
-   */
-  Template.pinchosRankingView.pinchosCollection = function() {
-    return Pinchos.find({}, {sort: {points: -1}, fields: {photo: 1, chef: 1}});
+  Template.ranking.pinchos = function() {
+    return Pinchos.find({}, {sort: {score: -1, chef: 1}});
   };
 
-
-  Template.pinchosView.pinchosCollection = function() {
+  /**
+   * El carrousel de Pinchos
+   */
+  Template.carousel.pinchos = function() {
     return Pinchos.find();
   };
 
@@ -26,14 +23,23 @@ if (Meteor.isClient) {
       sabor = +$( "#sabor").val();
       originalidad = +$( "#originalidad").val();
       presentacion = +$( "#presentacion").val();
-      
-      Pinchos.update({_id: this._id}, {$inc: {points: sabor + originalidad + presentacion}});
+
+      Pinchos.update({_id: this._id}, {$inc: {score: sabor + originalidad + presentacion}});
     }
   });
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
+    if (Pinchos.find().count() === 0) {
+      var names = ["Adri",
+                   "Keka",
+                   "Diego",
+                   "Natalia",
+                   "Gaby",
+                   "Alejandra"];
+      for (var i = 0; i < names.length; i++)
+        Pinchos.insert({chef: names[i], score: Math.floor(Random.fraction()*10)*5});
+    }
   });
 }
